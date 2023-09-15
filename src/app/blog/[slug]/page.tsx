@@ -6,7 +6,15 @@ async function getPhotos(): Promise<any[]> {
   return res.json();
 }
 
-export default async function Home() {
+interface ParamsSlug {
+  slug: string;
+}
+
+interface Params {
+  params: ParamsSlug;
+}
+
+export default async function Page(params: Params) {
   const data = await getPhotos();
 
   return (
@@ -17,7 +25,7 @@ export default async function Home() {
       <div className="container flex flex-row max-w-5xl m-auto gap-2.5">
         <div className="flex flex-col grow gap-2.5">
           {data
-            .filter(d => d.id < 10)
+            .filter(d => d.id < parseInt(params.params.slug))
             .map(d => (
               <img
                 className="w-full object-cover "
@@ -28,7 +36,7 @@ export default async function Home() {
         </div>
         <div className="flex flex-col grow gap-2.5">
           {data
-            .filter(d => d.id < 10)
+            .filter(d => d.id < parseInt(params.params.slug))
             .map(d => (
               <img
                 className="w-full object-cover "
@@ -39,7 +47,7 @@ export default async function Home() {
         </div>
         <div className="flex flex-col grow gap-2.5">
           {data
-            .filter(d => d.id < 10)
+            .filter(d => d.id < parseInt(params.params.slug))
             .map(d => (
               <img
                 className="w-full object-cover "
