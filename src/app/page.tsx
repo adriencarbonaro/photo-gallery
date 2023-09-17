@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const NB_COLS = 4;
+const NB_COLS = 3;
 
 interface PhotoInfo {
   src: string;
@@ -8,79 +8,56 @@ interface PhotoInfo {
   height: number;
 }
 
-interface PhotoList {
-  photos: PhotoInfo[];
-}
-
-interface Props<T> {
-  props: T;
-}
-
 export async function getData(): Promise<PhotoInfo[]> {
-  const result_json = {
-    photos: [
-      { src: "/1.jpg", width: 768, height: 1150 },
-      { src: "/4.jpg", width: 1024, height: 683 },
-      { src: "/2.jpg", width: 1150, height: 768 },
-      { src: "/3.jpg", width: 1024, height: 683 },
-      { src: "/4.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/1.jpg", width: 768, height: 1150 },
-      { src: "/2.jpg", width: 1150, height: 768 },
-      { src: "/3.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/1.jpg", width: 768, height: 1150 },
-      { src: "/2.jpg", width: 1150, height: 768 },
-      { src: "/3.jpg", width: 1024, height: 683 },
-      { src: "/4.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-    ],
-  };
-  const photos = result_json.photos;
+  const res = await fetch("http://localhost:3000/api", {
+    next: { revalidate: 5 },
+  });
 
+  const json_doc = await res.json();
+  const photos = json_doc.photos;
   return photos;
 }
 
 export default async function Page() {
   const photos = await getData();
 
-  function renderColumn(photos: PhotoInfo[]) {
+  function renderImg(photo: PhotoInfo) {
     return (
-      <div className="flex flex-col grow gap-2.5">
-        {photos.map((photo, idx) => (
-          <Image
-            key={idx}
-            alt={photo.src}
-            src={photo.src}
-            width={photo.width}
-            height={photo.height}
-            placeholder="blur"
-            blurDataURL="/blur.png"
-          />
-        ))}
-      </div>
+      <Image
+        key={photo.src}
+        alt={photo.src}
+        src={photo.src}
+        width={photo.width}
+        height={photo.height}
+        placeholder="blur"
+        blurDataURL="/blur.png"
+      />
     );
+  }
+
+  function renderColumns(cols: PhotoInfo[][]) {
+    return cols.map(col => {
+      return (
+        <div className="flex flex-col grow gap-2.5">
+          {col.map(photo => renderImg(photo))}
+        </div>
+      );
+    });
   }
 
   function renderPhotos(photos: PhotoInfo[]) {
     const nb_photos = photos.length;
-    const cols = [];
-    for (let i = 0; i < NB_COLS; i++) {
-      if (i === NB_COLS - 1) {
-        const arr = photos.slice(
-          i * Math.trunc(nb_photos / NB_COLS),
-          nb_photos,
-        );
-        cols.push(renderColumn([...arr]));
-      } else {
-        const arr = photos.slice(
-          i * Math.trunc(nb_photos / NB_COLS),
-          (i + 1) * Math.trunc(nb_photos / NB_COLS),
-        );
-        cols.push(renderColumn([...arr]));
-      }
+    let j = 0;
+    const cols: PhotoInfo[][] = [];
+    for (let k = 0; k < NB_COLS; k++) {
+      cols.push(new Array<PhotoInfo>());
     }
-    return cols;
+
+    for (let i = 0; i < nb_photos; i++) {
+      cols[j].push(photos[i]);
+      j = (j + 1) % NB_COLS;
+    }
+    return renderColumns(cols);
   }
 
   return (
