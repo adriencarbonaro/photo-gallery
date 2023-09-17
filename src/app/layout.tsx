@@ -10,7 +10,7 @@ import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 interface RootProps {
-  children: React.ReactNode;
+  children: JSX.Element;
 }
 
 export default function RootLayout(props: RootProps) {
