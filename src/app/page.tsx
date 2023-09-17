@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const NB_COLS = 3;
+const NB_COLS = 4;
 
 interface PhotoInfo {
   src: string;
@@ -19,69 +19,20 @@ interface Props<T> {
 export async function getData(): Promise<PhotoInfo[]> {
   const result_json = {
     photos: [
-      { src: "/1.jpg", width: 1150, height: 768 },
+      { src: "/1.jpg", width: 768, height: 1150 },
+      { src: "/4.jpg", width: 1024, height: 683 },
       { src: "/2.jpg", width: 1150, height: 768 },
       { src: "/3.jpg", width: 1024, height: 683 },
       { src: "/4.jpg", width: 1024, height: 683 },
-      { src: "/5.jpg", width: 1150, height: 768 },
-      { src: "/6.jpg", width: 1150, height: 768 },
-      { src: "/7.jpg", width: 1024, height: 683 },
       { src: "/8.jpg", width: 1024, height: 683 },
+      { src: "/1.jpg", width: 768, height: 1150 },
+      { src: "/2.jpg", width: 1150, height: 768 },
+      { src: "/3.jpg", width: 1024, height: 683 },
       { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/1.jpg", width: 1150, height: 768 },
+      { src: "/1.jpg", width: 768, height: 1150 },
       { src: "/2.jpg", width: 1150, height: 768 },
       { src: "/3.jpg", width: 1024, height: 683 },
       { src: "/4.jpg", width: 1024, height: 683 },
-      { src: "/5.jpg", width: 1150, height: 768 },
-      { src: "/6.jpg", width: 1150, height: 768 },
-      { src: "/7.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/1.jpg", width: 1150, height: 768 },
-      { src: "/2.jpg", width: 1150, height: 768 },
-      { src: "/3.jpg", width: 1024, height: 683 },
-      { src: "/4.jpg", width: 1024, height: 683 },
-      { src: "/5.jpg", width: 1150, height: 768 },
-      { src: "/6.jpg", width: 1150, height: 768 },
-      { src: "/7.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/1.jpg", width: 1150, height: 768 },
-      { src: "/2.jpg", width: 1150, height: 768 },
-      { src: "/3.jpg", width: 1024, height: 683 },
-      { src: "/4.jpg", width: 1024, height: 683 },
-      { src: "/5.jpg", width: 1150, height: 768 },
-      { src: "/6.jpg", width: 1150, height: 768 },
-      { src: "/7.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
-      { src: "/8.jpg", width: 1024, height: 683 },
       { src: "/8.jpg", width: 1024, height: 683 },
     ],
   };
@@ -96,13 +47,15 @@ export default async function Page() {
   function renderColumn(photos: PhotoInfo[]) {
     return (
       <div className="flex flex-col grow gap-2.5">
-        {photos.map(photo => (
+        {photos.map((photo, idx) => (
           <Image
+            key={idx}
             alt={photo.src}
             src={photo.src}
             width={photo.width}
             height={photo.height}
-            blurDataURL="https://picsum.photos/id/1060/536/354?blur=2"
+            placeholder="blur"
+            blurDataURL="/blur.png"
           />
         ))}
       </div>
@@ -111,36 +64,25 @@ export default async function Page() {
 
   function renderPhotos(photos: PhotoInfo[]) {
     const nb_photos = photos.length;
-    const imgs = [];
     const cols = [];
-
     for (let i = 0; i < NB_COLS; i++) {
       if (i === NB_COLS - 1) {
-        console.log(
-          photos.slice(i * Math.trunc(nb_photos / NB_COLS), nb_photos),
+        const arr = photos.slice(
+          i * Math.trunc(nb_photos / NB_COLS),
+          nb_photos,
         );
+        cols.push(renderColumn([...arr]));
       } else {
-        console.log(
-          photos.slice(
-            i * Math.trunc(nb_photos / NB_COLS),
-            (i + 1) * Math.trunc(nb_photos / NB_COLS),
-          ),
+        const arr = photos.slice(
+          i * Math.trunc(nb_photos / NB_COLS),
+          (i + 1) * Math.trunc(nb_photos / NB_COLS),
         );
-      }
-    }
-
-    for (let i = 0; i < nb_photos; i++) {
-      imgs.push(photos[i]);
-      if (
-        !((i + 1) % Math.trunc(nb_photos / NB_COLS)) ||
-        nb_photos - i < Math.trunc(nb_photos / NB_COLS)
-      ) {
-        cols.push(renderColumn([...imgs]));
-        imgs.length = 0;
+        cols.push(renderColumn([...arr]));
       }
     }
     return cols;
   }
+
   return (
     <div
       id="app"

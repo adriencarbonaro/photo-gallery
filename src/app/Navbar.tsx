@@ -25,6 +25,7 @@ function renderNavItem(item: NavItem) {
   if (item.type === "text") {
     return (
       <Link
+        key={item.name}
         className={`${pt_sans.className} text-white`}
         href={item.ref}
       >
@@ -34,6 +35,7 @@ function renderNavItem(item: NavItem) {
   } else {
     return (
       <Link
+        key={item.name}
         className={`${pt_sans.className} h-full`}
         href={item.ref}
       >
