@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const AWS_S3_URL =
-  "https://adriencarbophotography.s3.eu-west-3.amazonaws.com/";
+const AWS_S3_URL = "https://adriencarbophotography.s3.eu-west-3.amazonaws.com/";
 
 export async function GET(request: Request) {
   return NextResponse.json({
