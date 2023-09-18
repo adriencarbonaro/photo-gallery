@@ -8,7 +8,7 @@ interface PhotoInfo {
   height: number;
 }
 
-export async function getData(): Promise<PhotoInfo[]> {
+async function getData(): Promise<PhotoInfo[]> {
   const res = await fetch("http://localhost:3000/api", {
     next: { revalidate: 5 },
   });
