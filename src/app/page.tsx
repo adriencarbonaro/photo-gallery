@@ -8,13 +8,25 @@ interface PhotoInfo {
   height: number;
 }
 
-async function getData(): Promise<PhotoInfo[]> {
-  const res = await fetch("http://localhost:3000/api", {
-    next: { revalidate: 5 },
-  });
+const AWS_S3_URL = "https://adriencarbophotography.s3.eu-west-3.amazonaws.com/";
 
-  const json_doc = await res.json();
-  const photos = json_doc.photos;
+async function getData(): Promise<PhotoInfo[]> {
+  const photos: PhotoInfo[] = [
+    { src: AWS_S3_URL + "1.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "8.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "9.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "10.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "11.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "14.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "12.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "13.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "2.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "3.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "4.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "5.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "6.jpeg", width: 1200, height: 800 },
+    { src: AWS_S3_URL + "7.jpeg", width: 1200, height: 800 },
+  ];
   return photos;
 }
 
