@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 const AWS_S3_URL = "https://adriencarbophotography.s3.eu-west-3.amazonaws.com/";
 
-export async function GET(request: Request) {
+export async function GET() {
   return NextResponse.json({
     photos: [
       { src: AWS_S3_URL + "1.jpeg", width: 1200, height: 800 },

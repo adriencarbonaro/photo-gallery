@@ -36,9 +36,12 @@ export default async function Page() {
   }
 
   function renderColumns(cols: PhotoInfo[][]) {
-    return cols.map(col => {
+    return cols.map((col, idx) => {
       return (
-        <div className="flex flex-col grow gap-2.5">
+        <div
+          key={idx}
+          className="flex flex-col grow gap-2.5"
+        >
           {col.map(photo => renderImg(photo))}
         </div>
       );
