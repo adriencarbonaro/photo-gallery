@@ -10,6 +10,7 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+    domains: ["adriencarbophotography.s3.eu-west-3.amazonaws.com"],
   },
 };
 
