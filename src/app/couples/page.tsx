@@ -13,7 +13,7 @@ async function getData(): Promise<PhotoItem[]> {
   couples.map(couple => {
     couple.photos.map(photo =>
       photos.push({
-        src: join(server_doc.url, "couples", couple.dir, photo.src),
+        src: server_doc.url + join("couples", couple.dir, photo.src),
         alt: photo.alt,
       }),
     );
