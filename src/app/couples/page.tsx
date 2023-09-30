@@ -1,6 +1,9 @@
 import Image from "next/image";
-import { join } from "path";
+import { basename, join } from "path";
 import { type CollectionItem, getAll, type PhotoItem, getServer } from "../db";
+
+import "@/app/couples/page.css";
+import Link from "next/link";
 
 const NB_COLS = 3;
 
@@ -9,21 +12,12 @@ async function getData(): Promise<PhotoItem[]> {
   const couples = await getAll<CollectionItem>("couples");
   const photos: PhotoItem[] = [];
   couples.map(couple => {
-    if (couple.photos === "all") {
-      couple.photos.map(photo =>
-        photos.push({
-          src: join(server_doc.url, "couples", couple.dir, photo.src),
-          alt: photo.alt,
-        }),
-      );
-    } else {
-      couple.photos.map(photo =>
-        photos.push({
-          src: join(server_doc.url, "couples", couple.dir, photo.src),
-          alt: photo.alt,
-        }),
-      );
-    }
+    couple.photos.map(photo =>
+      photos.push({
+        src: join(server_doc.url, "couples", couple.dir, photo.src),
+        alt: photo.alt,
+      }),
+    );
   });
   return photos;
 }
@@ -33,15 +27,21 @@ export default async function Page() {
 
   function renderImg(photo: PhotoItem) {
     return (
-      <Image
-        key={photo.src}
-        alt={photo.alt}
-        src={photo.src}
-        width={1200}
-        height={800}
-        placeholder="blur"
-        blurDataURL="/blur.png"
-      />
+      <Link
+        target="_blank"
+        href={photo.src}
+        className="photo-container"
+      >
+        <div className="photo-meta">{basename(photo.src)}</div>
+        <Image
+          className="photo"
+          key={photo.src}
+          alt={photo.alt}
+          src={photo.src}
+          width={1200}
+          height={800}
+        />
+      </Link>
     );
   }
 

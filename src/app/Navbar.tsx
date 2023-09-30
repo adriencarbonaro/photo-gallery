@@ -62,7 +62,7 @@ function renderNavItem(item: NavItem) {
 
 export default function Navbar() {
   return (
-    <div className="navbar flex flex-row bg-stone-400 h-20 items-center justify-center gap-16 p-2.5">
+    <div className="navbar flex flex-row bg-stone-400 h-20 items-center justify-center gap-16 p-2.5 z-10">
       {navbar_items.map(item => renderNavItem(item))}
     </div>
   );

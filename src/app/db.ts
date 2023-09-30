@@ -17,7 +17,7 @@ export interface PhotoItem {
 export interface CollectionItem {
   name: string;
   dir: string;
-  photos: PhotoItem[] | "all";
+  photos: PhotoItem[];
 }
 
 const client = new MongoClient(URI, {

@@ -1,0 +1,28 @@
+.photo-container {
+  display: grid;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.photo-meta {
+  grid-row: 1;
+  grid-column: 1;
+  height: 100%;
+  background-color: #000000a0;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+}
+
+.photo-container:hover > .photo-meta {
+  z-index: 1;
+  color: white;
+}
+
+.photo {
+  grid-row: 1;
+  grid-column: 1;
+}
