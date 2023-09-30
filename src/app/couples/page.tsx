@@ -3,7 +3,6 @@ import { basename, join } from "path";
 import { type CollectionItem, getAll, type PhotoItem, getServer } from "../db";
 
 import "@/app/couples/page.css";
-import Link from "next/link";
 
 const NB_COLS = 3;
 
@@ -27,11 +26,10 @@ export default async function Page() {
 
   function renderImg(photo: PhotoItem) {
     return (
-      <Link
+      <a
         target="_blank"
         href={photo.src}
         className="photo-container"
-        prefetch={false}
       >
         <div className="photo-meta">{basename(photo.src)}</div>
         <Image
@@ -42,7 +40,7 @@ export default async function Page() {
           width={1200}
           height={800}
         />
-      </Link>
+      </a>
     );
   }
 
