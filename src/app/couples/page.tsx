@@ -31,6 +31,7 @@ export default async function Page() {
         target="_blank"
         href={photo.src}
         className="photo-container"
+        prefetch={false}
       >
         <div className="photo-meta">{basename(photo.src)}</div>
         <Image
