@@ -1,21 +1,24 @@
 import Image from "next/image";
 import { join } from "path";
-import { type CollectionItem, getAll, type PhotoItem, getServer } from "./db";
+import { type CollectionItem, getAll, type PhotoItem, getServer } from "../db";
 
 const NB_COLS = 3;
 
 async function getData(): Promise<PhotoItem[]> {
   const server_doc = await getServer();
-  const weddings = await getAll<CollectionItem>("weddings");
+  const couples = await getAll<CollectionItem>("couples");
   const photos: PhotoItem[] = [];
-  weddings.map(wedding =>
-    wedding.photos.map(photo =>
-      photos.push({
-        src: join(server_doc.url, "weddings", wedding.dir, photo.src),
-        alt: photo.alt,
-      }),
-    ),
-  );
+  couples.map(couple => {
+    if (couple.photos === "all") {
+    } else {
+      couple.photos.map(photo =>
+        photos.push({
+          src: join(server_doc.url, "couples", couple.dir, photo.src),
+          alt: photo.alt,
+        }),
+      );
+    }
+  });
   return photos;
 }
 
