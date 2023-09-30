@@ -10,6 +10,12 @@ async function getData(): Promise<PhotoItem[]> {
   const photos: PhotoItem[] = [];
   couples.map(couple => {
     if (couple.photos === "all") {
+      couple.photos.map(photo =>
+        photos.push({
+          src: join(server_doc.url, "couples", couple.dir, photo.src),
+          alt: photo.alt,
+        }),
+      );
     } else {
       couple.photos.map(photo =>
         photos.push({
