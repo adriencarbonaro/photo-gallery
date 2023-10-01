@@ -8,7 +8,13 @@ const BUCKET = "adriencarbophotography";
 const REGION = "eu-west-3";
 const URL = `https://${BUCKET}.s3.${REGION}.amazonaws.com/`;
 
-const s3Client = new S3Client({ region: REGION });
+const s3Client = new S3Client({
+  region: REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+  },
+});
 
 interface GalleryMetadata {
   name: string;
