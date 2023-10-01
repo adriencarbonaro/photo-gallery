@@ -1,28 +1,28 @@
 import Image from "next/image";
-import { basename, join } from "path";
-import { type CollectionItem, getAll, type PhotoItem, getServer } from "../db";
+import { basename } from "path";
+import { type PhotoItem } from "@/app/db";
+import { type ParamsProp } from "@/app/types";
+import { getShootingPhotos } from "@/app/s3";
 
-import "@/app/couples/page.css";
+import "@/app/page.css";
 
 const NB_COLS = 3;
 
-async function getData(): Promise<PhotoItem[]> {
-  const server_doc = await getServer();
-  const couples = await getAll<CollectionItem>("couples");
-  const photos: PhotoItem[] = [];
-  couples.map(couple => {
-    couple.photos.map(photo =>
-      photos.push({
-        src: server_doc.url + join("couples", couple.dir, photo.src),
-        alt: photo.alt,
-      }),
-    );
-  });
-  return photos;
+interface ShootingProps {
+  shooting_name: string;
 }
 
-export default async function Page() {
-  const photos = await getData();
+async function getShootingData(name: string): Promise<PhotoItem[]> {
+  const photos = await getShootingPhotos(name);
+  const data: PhotoItem[] = [];
+  for (const photo of photos) {
+    data.push({ src: photo, alt: name });
+  }
+  return data;
+}
+
+export default async function Page(props: ParamsProp<ShootingProps>) {
+  const photos = await getShootingData(props.params.shooting_name);
 
   function renderImg(photo: PhotoItem) {
     return (

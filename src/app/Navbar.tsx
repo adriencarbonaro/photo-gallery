@@ -25,11 +25,9 @@ interface ImgNavItem extends NavItem {
 type NavItemType = TextNavItem | ImgNavItem;
 
 const navbar_items: NavItemType[] = [
-  { type: "text", name: "Accueil", ref: "/" },
-  { type: "text", name: "Mariages", ref: "/weddings" },
+  { type: "text", name: "Couples", ref: "/galleries/couples" },
   { type: "img", name: "logo", link: logo_svg, ref: "/" },
-  { type: "text", name: "Animaux", ref: "/animals" },
-  { type: "text", name: "A Propos", ref: "/about" },
+  { type: "text", name: "Mariages", ref: "/galleries/weddings" },
 ];
 
 function renderNavItem(item: NavItem) {
