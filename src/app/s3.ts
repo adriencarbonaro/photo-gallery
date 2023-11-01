@@ -30,7 +30,9 @@ async function getPhotos(prefix: string, name: string) {
   );
   if (res.Contents) {
     for (const item of res.Contents) {
-      array.push(URL + item.Key);
+      if (item.Key?.includes("jpg")) {
+        array.push(URL + item.Key);
+      }
     }
   }
   return array;
